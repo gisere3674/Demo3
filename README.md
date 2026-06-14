@@ -25,7 +25,7 @@ The app uses a single 32B-cap-compatible idea model, `Qwen/Qwen3-32B`, to genera
 - Uses `Qwen/Qwen3-32B`, a strong model available through Hugging Face Inference Providers and aligned with the 32B model cap.
 - Ships as a small Gradio app.
 - Keeps the interface minimal: one project goal input, one track selector, one idea-count slider, and one output panel.
-- Avoids extra local heuristics or fallback idea rules so the generated ideas come from the selected LLM.
+- Avoids extra local heuristics so the generated ideas come from the selected LLM.
 
 ## How to run on Hugging Face Spaces
 
@@ -43,4 +43,4 @@ The app uses a single 32B-cap-compatible idea model, `Qwen/Qwen3-32B`, to genera
 
 - Gradio UI
 - `huggingface_hub.InferenceClient`
-- Default model: `Qwen/Qwen3-32B`
+- Fixed model: `Qwen/Qwen3-32B`

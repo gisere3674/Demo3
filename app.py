@@ -3,7 +3,7 @@ import os
 import gradio as gr
 from huggingface_hub import InferenceClient
 
-MODEL_ID = os.getenv("MODEL_ID", "Qwen/Qwen3-32B")
+MODEL_ID = "Qwen/Qwen3-32B"
 
 HACKATHON_CONTEXT = """
 Build Small hackathon constraints:
@@ -61,8 +61,8 @@ def generate(goal, track, count):
             temperature=0.85,
         )
         return response.choices[0].message.content
-    except Exception as exc:
-        return f"Model call failed for `{MODEL_ID}`: {exc}"
+    except Exception:
+        return f"The model request failed for `{MODEL_ID}`. Check that `HF_TOKEN` is set and that this model is enabled for your Hugging Face Inference Provider account."
 
 
 with gr.Blocks(title="Build Small Idea Forge", theme=gr.themes.Soft()) as demo:
