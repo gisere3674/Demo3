@@ -8,7 +8,7 @@ Then set the Hugging Face Space secret MODAL_EXCAVATE_URL to the printed /excava
 
 import modal
 
-MODEL_ID = "Qwen/Qwen2.5-32B-Instruct"
+MODEL_ID = "Qwen/Qwen3-4B-Instruct-2507"
 
 image = (
     modal.Image.debian_slim(python_version="3.11")
@@ -18,7 +18,7 @@ image = (
 app = modal.App("photo-archaeology-simulator")
 
 
-@app.cls(image=image, gpu="A100-80GB", timeout=600, scaledown_window=300)
+@app.cls(image=image, gpu="A10G", timeout=240, scaledown_window=300)
 class ArchaeologyWriter:
     @modal.enter()
     def load(self):
@@ -31,12 +31,11 @@ class ArchaeologyWriter:
     def write(self, artifacts, tone):
         prompt = f"""
 You are a comic academic archaeologist studying messy modern rooms.
-Do not output hidden reasoning, chain-of-thought, or <think> blocks.
 Write a faux-scholarly excavation report in markdown.
 Tone: {tone}
 Use numbered Clue entries matching these detected artifacts: {artifacts}
 Invent playful carbon-dating methods for digital and household objects.
-Make it vivid, specific, funny, kind, and under 900 words. Include an Abstract, Numbered Finds, Dating Method, and Curator Verdict. Do not give real cleaning advice except as a joke.
+Keep it funny, kind, and under 700 words. Do not give real cleaning advice except as a joke.
 """.strip()
         messages = [
             {"role": "system", "content": "You produce humorous pseudo-academic reports, never serious scientific claims."},
@@ -44,11 +43,8 @@ Make it vivid, specific, funny, kind, and under 900 words. Include an Abstract, 
         ]
         text = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
         inputs = self.tokenizer([text], return_tensors="pt").to(self.model.device)
-        output = self.model.generate(**inputs, max_new_tokens=1200, temperature=0.9, top_p=0.92, do_sample=True)
-        text = self.tokenizer.decode(output[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
-        if "</think>" in text:
-            text = text.split("</think>", 1)[1].strip()
-        return text
+        output = self.model.generate(**inputs, max_new_tokens=900, temperature=0.85, do_sample=True)
+        return self.tokenizer.decode(output[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
 
 
 @app.function(image=image, timeout=300)

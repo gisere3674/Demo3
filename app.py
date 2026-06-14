@@ -173,11 +173,7 @@ def excavate(image, tone):
         image = Image.fromarray(np.array(image))
     artifacts = detect_artifacts(image.convert("RGB"))
     annotated = annotate_image(image, artifacts)
-    report = modal_report(artifacts, tone)
-    if report:
-        report = "_Generated with the Modal-hosted Qwen2.5-32B-Instruct excavation writer._\n\n" + report
-    else:
-        report = "_Modal URL not configured; using the lightweight local field-notes fallback._\n\n" + fallback_report(artifacts, tone)
+    report = modal_report(artifacts, tone) or fallback_report(artifacts, tone)
     return annotated, make_site_map(artifacts), report, timeline_html(artifacts), json.dumps(artifacts, indent=2)
 
 

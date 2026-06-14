@@ -31,14 +31,14 @@ Upload a chaotic room, desk, or workspace photo. The app detects visible objects
 ## Model plan
 
 - **Object detection:** `yolov8n.pt` via Ultralytics. This compact detector is well below the 32B cap.
-- **Modal text endpoint:** `Qwen/Qwen2.5-32B-Instruct`, run on Modal so the Hugging Face Space does not spend paid HF inference credits. The app falls back to local templates only when the Modal URL is not configured.
-- **Fallback:** If `MODAL_EXCAVATE_URL` is not configured, the Space still runs using local humorous report templates for demo resilience, but the intended polished path is Modal-powered Qwen2.5-32B-Instruct text generation.
+- **Optional Modal text endpoint:** `Qwen/Qwen3-4B-Instruct-2507`, also below the 32B cap.
+- **Fallback:** If `MODAL_EXCAVATE_URL` is not configured, the Space still runs using local humorous report templates so the demo remains available without paid Hugging Face inference.
 
 ## Why it fits Build Small
 
 - It is whimsical, tinkerable, and easy to understand from one upload-and-click interaction.
 - The AI turns ordinary clutter into spatial evidence, artifact catalogs, and academic parody.
-- The Hugging Face Space hosts the Gradio UI while Modal credits power the intended LLM report generation path.
+- The Hugging Face Space hosts the Gradio UI while Modal credits can be used for optional LLM report generation.
 
 ## Running locally
 
