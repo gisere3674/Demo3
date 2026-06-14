@@ -19,7 +19,7 @@ tags:
 
 **Turn your messy room into an academic archaeological dig site report.**
 
-Upload a chaotic room, desk, or workspace photo. The Space sends the image to a Modal-hosted vision-language model, overlays numbered excavation markers from the returned coordinates, builds a mock site map, and generates a faux-scholarly report about the domestic civilization that produced the mess.
+Upload a chaotic room, desk, or workspace photo. The app detects visible objects, overlays numbered excavation markers, builds a mock site map, and generates a faux-scholarly report about the domestic civilization that produced the mess.
 
 ## What it generates
 
@@ -30,15 +30,15 @@ Upload a chaotic room, desk, or workspace photo. The Space sends the image to a 
 
 ## Model plan
 
-- **Single AI model:** `Qwen/Qwen2.5-VL-7B-Instruct`, hosted on Modal for both image understanding and report writing.
-- **Total model budget:** 7B, comfortably under the requested 32B total cap.
-- **Fallback:** If `MODAL_EXCAVATE_URL` is not configured, the Space still runs with deterministic local sample artifacts for demo resilience, but the intended polished path is Modal-powered vision-language generation.
+- **Object detection:** `yolov8n.pt` via Ultralytics. This compact detector is well below the 32B cap.
+- **Optional Modal text endpoint:** `Qwen/Qwen3-4B-Instruct-2507`, also below the 32B cap.
+- **Fallback:** If `MODAL_EXCAVATE_URL` is not configured, the Space still runs using local humorous report templates so the demo remains available without paid Hugging Face inference.
 
 ## Why it fits Build Small
 
 - It is whimsical, tinkerable, and easy to understand from one upload-and-click interaction.
-- The Modal-hosted vision-language model turns ordinary clutter into spatial evidence, artifact catalogs, and academic parody.
-- The Hugging Face Space hosts the Gradio UI while Modal credits power the intended image-understanding and report-generation path.
+- The AI turns ordinary clutter into spatial evidence, artifact catalogs, and academic parody.
+- The Hugging Face Space hosts the Gradio UI while Modal credits can be used for optional LLM report generation.
 
 ## Running locally
 
