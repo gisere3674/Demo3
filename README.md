@@ -1,8 +1,8 @@
 ---
-title: Build Small Idea Forge
-emoji: 🛠️
-colorFrom: green
-colorTo: indigo
+title: Photo Archaeology Simulator
+emoji: 🏺
+colorFrom: amber
+colorTo: stone
 sdk: gradio
 sdk_version: 5.34.0
 app_file: app.py
@@ -10,37 +10,53 @@ pinned: false
 tags:
   - build-small-hackathon
   - gradio
-  - backyard-ai
   - thousand-token-wood
+  - modal
+  - computer-vision
 ---
 
-# Build Small Idea Forge
+# Photo Archaeology Simulator
 
-A simple project-idea generator for the Hugging Face × Gradio **Build Small** hackathon.
+**Turn your messy room into an academic archaeological dig site report.**
 
-The app uses a single 32B-cap-compatible idea model, `Qwen/Qwen3-32B`, to generate concise, buildable project concepts for the selected hackathon track.
+Upload a chaotic room, desk, or workspace photo. The app detects visible objects, overlays numbered excavation markers, builds a mock site map, and generates a faux-scholarly report about the domestic civilization that produced the mess.
+
+## What it generates
+
+- An annotated image with numbered artifact locations.
+- A mock archaeological site map with grid coordinates.
+- Fictional artifact descriptions and pseudo-academic carbon dating.
+- A timeline of discovered domestic eras.
+
+## Model plan
+
+- **Object detection:** `yolov8n.pt` via Ultralytics. This compact detector is well below the 32B cap.
+- **Modal text endpoint:** `Qwen/Qwen2.5-32B-Instruct`, run on Modal so the Hugging Face Space does not spend paid HF inference credits. The app falls back to local templates only when the Modal URL is not configured.
+- **Fallback:** If `MODAL_EXCAVATE_URL` is not configured, the Space still runs using local humorous report templates for demo resilience, but the intended polished path is Modal-powered Qwen2.5-32B-Instruct text generation.
 
 ## Why it fits Build Small
 
-- Uses `Qwen/Qwen3-32B`, a strong model available through Hugging Face Inference Providers and aligned with the 32B model cap.
-- Ships as a small Gradio app.
-- Keeps the interface minimal: one project goal input, one track selector, one idea-count slider, and one output panel.
-- Avoids extra local heuristics so the generated ideas come from the selected LLM.
+- It is whimsical, tinkerable, and easy to understand from one upload-and-click interaction.
+- The AI turns ordinary clutter into spatial evidence, artifact catalogs, and academic parody.
+- The Hugging Face Space hosts the Gradio UI while Modal credits power the intended LLM report generation path.
 
-## How to run on Hugging Face Spaces
+## Running locally
 
-1. Create a Gradio Space in the `build-small-hackathon` organization.
-2. Upload `app.py`, `requirements.txt`, and this `README.md`.
-3. Add a Space secret named `HF_TOKEN`.
-4. Run the Space and generate ideas.
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+## Deploying the optional Modal writer
+
+```bash
+pip install modal
+modal deploy modal_app.py
+```
+
+After deployment, set the Hugging Face Space secret `MODAL_EXCAVATE_URL` to the printed `/excavate` endpoint URL.
 
 ## Demo and social links
 
 - Demo video: TODO
 - Social post: TODO
-
-## Tech
-
-- Gradio UI
-- `huggingface_hub.InferenceClient`
-- Fixed model: `Qwen/Qwen3-32B`
